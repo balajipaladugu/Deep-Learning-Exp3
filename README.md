@@ -163,9 +163,12 @@ plt.imshow(img_28_gray_inverted_scaled1.reshape(28,28),cmap='gray')
 
 <img width="731" height="492" alt="image" src="https://github.com/user-attachments/assets/11576061-0245-4568-a6d4-b5f903edd10f" />
 
+
 <img width="542" height="540" alt="image" src="https://github.com/user-attachments/assets/a73f8147-2f6b-44bf-8d91-9445d5a84de5" />
 
+
 <img width="487" height="531" alt="image" src="https://github.com/user-attachments/assets/be03d8e4-5b04-4360-8376-e9f517fa88dc" />
+
 
 <img width="553" height="545" alt="image" src="https://github.com/user-attachments/assets/6f94fe81-ec0b-4370-b426-229f6a0afca0" />
 
