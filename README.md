@@ -42,9 +42,9 @@ Test the model with external custom digit images by resizing them to 28x28, conv
 
 **PROGRAM**
 
-### Name: Aravindan T
+### Name: p venkata Balaji
 
-### Register Number: 2305001003
+### Register Number: 2305001024
 
 ```
 import numpy as np
