@@ -41,7 +41,7 @@ Evaluate the trained model by:Plotting training vs validation accuracy and loss 
 Test the model with external custom digit images by resizing them to 28x28, converting them to grayscale, scaling pixel values, and predicting their labels using the trained CNN.
 
 **PROGRAM**
-
+ 
 ### Name: p venkata Balaji
 
 ### Register Number: 2305001024
