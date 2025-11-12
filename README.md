@@ -1,50 +1,55 @@
-# Deep-Learning-Exp3 
+# Exp-3: Convolutional Deep Neural Network for Image Classification
 
-## DL-Convolutional Deep Neural Network for Image Classification
-
-## AIM
+## AIM:
 
 To develop a convolutional neural network (CNN) classification model for the given dataset.
 
-## THEORY
+## THEORY: 
 
 The MNIST dataset consists of 70,000 grayscale images of handwritten digits (0-9), each of size 28×28 pixels. The task is to classify these images into their respective digit categories. CNNs are particularly well-suited for image classification tasks as they can automatically learn spatial hierarchies of features through convolutional layers, pooling layers, and fully connected layers.
 
-## Neural Network Model
+## Neural Network Model:
+
+<img width="816" height="590" alt="image" src="https://github.com/user-attachments/assets/f12f2799-3475-4427-995c-b00d5ad2a95b" />
 
 
-
-## DESIGN STEPS
+## DESIGN STEPS:
 
 **STEP 1:**
-
-Preprocess the MNIST dataset by normalizing pixel values to the range [0,1], reshaping the images to (28,28,1), and converting the labels into one-hot encoded format.***
+Import tensorflow and preprocessing libraries.
 
 **STEP 2:**
-
-Build a convolutional neural network (CNN) model with specified architecture using TensorFlow Keras
+Download and load the dataset
 
 **STEP 3:**
-
-Compile the model using the categorical cross-entropy loss function, Adam optimizer, and accuracy as the evaluation metric.
+Scale the dataset between it's min and max values
 
 **STEP 4:**
+Using one hot encode, encode the categorical values
 
-Train the compiled model on the preprocessed training data for 5 epochs with a batch size of 64, while validating on the test set.
+**STEP 5:**
+Split the data into train and test
 
-**STEP 5**: 
+**STEP 6:**
+Build the convolutional neural network model
 
-Evaluate the trained model by:Plotting training vs validation accuracy and loss ,Generating a confusion matrix and classification report.
+**STEP 7:**
+Train the model with the training data
 
-**STEP 6:** 
+**STEP 8:**
+Plot the performance plot
 
-Test the model with external custom digit images by resizing them to 28x28, converting them to grayscale, scaling pixel values, and predicting their labels using the trained CNN.
+**STEP 9:**
+Evaluate the model with the testing data
 
-**PROGRAM**
- 
-### Name: p venkata Balaji
+**STEP 10:**
+Fit the model and predict the single input
 
-### Register Number: 2305001024
+## PROGRAM:
+
+**Name:** P VENKATA BALAJI
+
+**Register Number:** 2305001024
 
 ```
 import numpy as np
@@ -61,24 +66,36 @@ from tensorflow.keras.preprocessing import image
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 X_train.shape
 X_test.shape
+
 single_image= X_train[0]
 single_image.shape
+
 plt.imshow(single_image,cmap='gray')
 y_train.shape
+
 X_train.min()
 X_train.max()
+
 X_train_scaled = X_train/255.0
 X_test_scaled = X_test/255.0
+
 X_train_scaled.min()
 X_train_scaled.max()
+
 y_train[0]
+
 y_train_onehot = utils.to_categorical(y_train,10)
 y_test_onehot = utils.to_categorical(y_test,10)
+
 type(y_train_onehot)
+
 y_train_onehot.shape
+
 single_image = X_train[500]
 plt.imshow(single_image,cmap='gray')
+
 y_train_onehot[500]
+
 X_train_scaled = X_train_scaled.reshape(-1,28,28,1)
 X_test_scaled = X_test_scaled.reshape(-1,28,28,1)
 
@@ -95,81 +112,81 @@ model.summary()
 
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
-              metrics='accuracy')
+              metrics=['accuracy'])
 
-model.fit(X_train_scaled ,y_train_onehot, epochs=5,
-          batch_size=64,
+model.fit(X_train_scaled ,y_train_onehot, epochs=10,
+          batch_size=128,
           validation_data=(X_test_scaled,y_test_onehot))
 
 metrics = pd.DataFrame(model.history.history)
 metrics.head()
-print("Rithiga Sri.B 212221230083")
-print("Rithiga Sri.B 212221230083")
+
 metrics[['accuracy','val_accuracy']].plot()
-print("Rithiga Sri.B 212221230083")
+
 metrics[['loss','val_loss']].plot()
 
 x_test_predictions = np.argmax(model.predict(X_test_scaled), axis=1)
-print("Rithiga Sri.B 212221230083")
+
 print(confusion_matrix(y_test,x_test_predictions))
 
-print("Rithiga Sri.B 212221230083")
 print(classification_report(y_test,x_test_predictions))
 
-img = image.load_img('/content/img.jpeg')
+img = image.load_img('7.png')
+
 type(img)
 
-img = image.load_img('/content/six.png')
-plt.imshow(img)
+img = image.load_img('7.png')
 img_tensor = tf.convert_to_tensor(np.asarray(img))
 img_28 = tf.image.resize(img_tensor,(28,28))
 img_28_gray = tf.image.rgb_to_grayscale(img_28)
 img_28_gray_scaled = img_28_gray.numpy()/255.0
-x_single_prediction = np.argmax(model.predict(img_28_gray_scaled.reshape(1,28,28,1)),axis=1)
 
-print("Rithiga Sri.B 212221230083")
+x_single_prediction = np.argmax(
+    model.predict(img_28_gray_scaled.reshape(1,28,28,1)),
+     axis=1)
+
 print(x_single_prediction)
+
 plt.imshow(img_28_gray_scaled.reshape(28,28),cmap='gray')
 
-img1 = image.load_img('/content/zero.jfif')
-plt.imshow(img1)
-img_tensor1 = tf.convert_to_tensor(np.asarray(img1))
-img_28_gray1 = tf.image.resize(img_tensor1,(28,28))
-img_28_gray1 = tf.image.rgb_to_grayscale(img_28_gray1)
-img_28_gray_inverted1 = 255.0-img_28_gray1
-img_28_gray_inverted_scaled1 = img_28_gray_inverted1.numpy()/255.0
+img_28_gray_inverted = 255.0-img_28_gray
+img_28_gray_inverted_scaled = img_28_gray_inverted.numpy()/255.0
 
-x_single_prediction1 = np.argmax(model.predict(img_28_gray_inverted_scaled1.reshape(1,28,28,1)),axis=1)
-print("Rithiga Sri.B 212221230083")
-print(x_single_prediction1)
-plt.imshow(img_28_gray_inverted_scaled1.reshape(28,28),cmap='gray')
+x_single_prediction = np.argmax(model.predict(img_28_gray_inverted_scaled.reshape(1,28,28,1)),axis=1)
+
+print(x_single_prediction)
+
 ```
-  
-## OUTPUT
 
-### Training Loss per Epoch
+## OUTPUT:
 
-<img width="1175" height="281" alt="image" src="https://github.com/user-attachments/assets/dbe55d21-a466-4905-92fa-3836ce6f670f" />
+### Training Loss, Validation Loss Vs Iteration Plot:
 
-### Confusion Matrix
+<img width="556" height="413" alt="image" src="https://github.com/user-attachments/assets/341f83ca-da35-43c7-b773-d36d2793515f" />
 
-<img width="533" height="306" alt="image" src="https://github.com/user-attachments/assets/260c42e2-ca07-4b64-988b-a08c83bc05f0" />
+<img width="556" height="413" alt="image" src="https://github.com/user-attachments/assets/07dde5af-6f7f-48ef-8fe5-01a52da0b664" />
 
-### Classification Report
+### Confusion Matrix:
 
-<img width="567" height="396" alt="image" src="https://github.com/user-attachments/assets/f890f2f1-f5cc-4c56-ab6d-5522c6f436e8" />
+<img width="659" height="286" alt="image" src="https://github.com/user-attachments/assets/4d72714a-9761-418f-a581-f4ad3baf8c33" />
 
-### New Sample Data Prediction
+### Classification Report:
 
-<img width="731" height="492" alt="image" src="https://github.com/user-attachments/assets/11576061-0245-4568-a6d4-b5f903edd10f" />
+<img width="744" height="436" alt="image" src="https://github.com/user-attachments/assets/33cb9649-9abe-46c1-82dc-0ac7ae16b845" />
 
-<img width="542" height="540" alt="image" src="https://github.com/user-attachments/assets/a73f8147-2f6b-44bf-8d91-9445d5a84de5" />
+### Accuracy:
 
-<img width="487" height="531" alt="image" src="https://github.com/user-attachments/assets/be03d8e4-5b04-4360-8376-e9f517fa88dc" />
+<img width="951" height="68" alt="image" src="https://github.com/user-attachments/assets/32242c9d-ef81-4b20-adef-672d3536e792" />
+
+### New Sample Data Prediction:
+
+<img width="738" height="576" alt="image" src="https://github.com/user-attachments/assets/1f595693-d557-4792-800c-3782e64db225" />
+
+### Predicted Output:
+
+<img width="635" height="73" alt="image" src="https://github.com/user-attachments/assets/9e62afb2-5000-40df-a717-f48e70802f05" />
 
 
-<img width="553" height="545" alt="image" src="https://github.com/user-attachments/assets/6f94fe81-ec0b-4370-b426-229f6a0afca0" />
+## RESULT:
 
-## RESULT
-
-Thus, a Convolutional deep neural network for digit classification and to verify the response for scanned handwritten images is developed successfully.
+Thus, a convolutional deep neural network for digit classification and to verify the response for scanned handwritten images is developed successfully.
